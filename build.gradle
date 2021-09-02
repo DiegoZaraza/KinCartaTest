@@ -9,11 +9,40 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+project.ext {
+    cucumberVersion = '5.6.0'
+
 }
 
-test {
-    useJUnitPlatform()
+dependencies {
+    testImplementation 'io.cucumber:cucumber-java:' + cucumberVersion
+    testImplementation 'io.cucumber:cucumber-junit:' + cucumberVersion
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+    testImplementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.16.1'
+    implementation group: 'log4j', name: 'log4j', version: '1.2.17'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+
+            args = [
+                    '--plugin', 'html:reports/test-report',
+                    '--plugin', 'pretty',
+                    '--glue', 'org.userinyerface.steps', 'src/test/resources',
+                    '--tags', '@MainPage or @FirstPage or @SecondPage or @ThirdPage'
+            ]
+        }
+    }
 }
