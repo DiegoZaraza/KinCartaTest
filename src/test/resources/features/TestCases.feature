@@ -7,4 +7,4 @@
       And Searches for 'Alexa'
       And Navigates to the second page
       And Select the third item
-      Then Validate Result
+      Then Validate Product Add to Card

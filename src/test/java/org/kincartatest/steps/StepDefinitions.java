@@ -10,6 +10,7 @@ import io.cucumber.java.Before;
 import org.jsoup.Connection;
 import org.kincartatest.pageobject.BasePage;
 import org.kincartatest.pageobject.IndexPage;
+import org.kincartatest.pageobject.ProductPage;
 import org.kincartatest.pageobject.ResultPage;
 import org.kincartatest.utilities.PropertiesRead;
 import org.openqa.selenium.WebDriver;
@@ -23,6 +24,7 @@ public class StepDefinitions {
     private SoftAssertions softAssertions;
     private IndexPage indexPage;
     private ResultPage resultPage;
+    private ProductPage productPage;
 
     @Before
     public void setup() {
@@ -30,6 +32,7 @@ public class StepDefinitions {
         webDriver = new ChromeDriver();
         indexPage = new IndexPage(webDriver);
         resultPage = new ResultPage(webDriver);
+        productPage = new ProductPage(webDriver);
         softAssertions = new SoftAssertions();
         webDriver.manage().window().maximize();
     }
@@ -52,13 +55,14 @@ public class StepDefinitions {
     }
 
     @And("Select the third item")
-    public void selectTheThirdItem() throws InterruptedException {
-
+    public void selectTheThirdItem() {
         resultPage.clickThirdElement();
     }
 
-    @Then("Validate Result")
-    public void validateResult() {
+
+    @Then("Validate Product Add to Card")
+    public void validateProductAddToCard() {
+        softAssertions.assertThat(productPage.isDisplayedBtnAddToCard());
     }
 
     @After
