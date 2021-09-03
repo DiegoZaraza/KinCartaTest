@@ -168,3 +168,5 @@ local.properties
 ## OS X
 ##############################
 .DS_Store
+
+reports/

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BasePage {
     static final Logger log = Logger.getLogger(BasePage.class);
-    private static final int TIMEOUT = Integer.parseInt(PropertiesRead.readFromFrameworkConfig("timeout"));
+    private static final long TIMEOUT = Long.parseLong(PropertiesRead.readFromFrameworkConfig("TIMEOUT"));
     private static WebDriver driver = null;
 
     public BasePage(WebDriver driver) {
